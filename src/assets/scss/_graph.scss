@@ -13,15 +13,17 @@
 
 //VARIABLES
 $colsnum: 5;
-$bars-height: 400px;
-$graph-height: 400px;
-$bar-width: 24px;
-$barcol-width: 30px;
+$bars-height: 200px;
+$bar-width: 35px;
+$barcol-width: 40px;
 $xaxis-height: 30px;
 $yaxis-width: $barcol-width * $colsnum;
 $caption-height: 30px;
 $yunit-height: $bars-height/$colsnum;
 $overfigure-bg: #cecece;
+
+$tooltip-transition: all .8s ease-out;
+
 
 
 //TABLES STYLES for non JS-enabled
@@ -42,11 +44,6 @@ $overfigure-bg: #cecece;
   }
 }
 
-.tg-wrap { //default table-graph wrapper class (for demo purposes)
-  display: inline-block;
-  margin-right: 1%;
-  width: 30%;
-}
 
 //GENERATED GRAPH STYLES
 
@@ -74,7 +71,6 @@ $overfigure-bg: #cecece;
   text-align: center;
 
   span {
-    border: solid 1px $purple;
     display: inline-block;
     width: $barcol-width;
   }
@@ -103,21 +99,17 @@ $overfigure-bg: #cecece;
 
 // Graph Bars 
 .gg__bars {                   
-  border: 1px solid $red;
+  background: $white;  
+  border-right: solid 1px $greylt; 
   height: $bars-height; //need to fix height
   position: absolute;
   z-index: 10;
 
   .gg__bar-wrap {            
-    border: solid 1px $green; 
+    border-left: solid 1px $greylt;     
     display: inline-block;
-    height: 100%;
-    //padding: 0 15px;
-    
+    height: 100%;    
     width: $barcol-width;
-    //width: 76px;
-
-    
 
   }
 
@@ -132,7 +124,7 @@ $overfigure-bg: #cecece;
 
     //mouseover bar reveals figures
     span {
-      @include transition(all .2s ease-out);
+      @include transition($tooltip-transition);
       background: $overfigure-bg;
       display: block;
       left: -8px;

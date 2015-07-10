@@ -20,23 +20,23 @@ var settings = $.extend( {}, defaults, options );*/
 
     var defaults = {
       // These are the defaults.
+      // could do with more finesse!
       useYAxis: false, //can omit the y-axis
-      graphsContainerClass: '.tableGraphs', //there can be more than one wrapper on a page
-      graphTableWrapClass: '.tg-wrap', //individual table-graph wrapper, as children of the above
-      genGraphContainer: '<div class="gg-wrap"></div>', //generated container for graph + caption heading
+      graphsContainerClass: 'tableGraphs', //there can be more than one wrapper on a page
+      graphTableWrapClass: 'tg-wrap', //individual table-graph wrapper, as children of the above
       genHeading: 'h3', //change if this needs to be another element (caption text will be reperesented)      
       headingClass: 'gg-caption', //class for the heading
-      genGraph: '<div class="gg"></div>', //generated graph element
-      genBars: '<div class="gg__bars"></div>', //Bars for generated graph element
-      genBarGroup: '<div class="gg__bar-wrap"></div>' //generated bar group (column for each bar)
+      barsTransitionSpeed: '.8' //control graph bars transition speed
     };
 
-    // This is the easiest way to have default options.
+    // Merge options
     var settings = $.extend({
-      complete     : null // set up for a callback
-    }, defaults, options );
-
-
+                        complete: null, // set up for a callback      
+                        genGraphContainer: '<div class="gg-wrap"></div>', //generated container for graph + caption heading
+                        genGraph: '<div class="gg"></div>', //generated graph element
+                        genBars: '<div class="gg__bars"></div>', //Bars for generated graph element
+                        genBarGroup: '<div class="gg__bar-wrap"></div>' //generated bar group (column for each bar)
+                    }, defaults, options );
 
     // return, so that the plugin action can be chainable
     // the this keyword refers to the object the function is called on, and we iterate through each matching dom object with $.each()
@@ -48,25 +48,18 @@ var settings = $.extend( {}, defaults, options );*/
         settings.complete.call(this);
       }
 
-
-
-
-
       // run the graphs code
       ggGraphs(settings, this);
-
-
-     
-
 
     });
 
 
     // All the plugin functions here:
-
     function ggGraphs(settings, object){
 
-    // ISSUE when multiple tables on page - generates 1, then 2, then 3 - check iteration statements
+      //set up dom objects with the settings values:
+      var graphsContainer = '.' + settings.graphsContainerClass,
+          graphwrap = '.' + settings.graphTableWrapClass;
 
       Graphs = {
 
@@ -79,7 +72,7 @@ var settings = $.extend( {}, defaults, options );*/
 
           //console.log('how many?'); //3 times for 3 tables is correct
 
-          var $graphsContainer = $(settings.graphsContainerClass);
+          var $graphsContainer = $(graphsContainer);
 
           var dataArray = [];
 
@@ -87,7 +80,7 @@ var settings = $.extend( {}, defaults, options );*/
 
           if ($graphsContainer.length > 0){
 
-            var $graphwrap = $(settings.graphTableWrapClass), //html code individual table/graph wrapper
+            var $graphwrap = $(graphwrap), //html code individual table/graph wrapper
                 $tables = $('table', $graphsContainer); //array of all tables in the big graphs wrapper
 
             (function(){
@@ -99,7 +92,6 @@ var settings = $.extend( {}, defaults, options );*/
               Graphs.createGraph(tableId, chartContainer);
 
               var barDataObjArray = Graphs.vars.barData;
-              console.log('am i array of objs?',barDataObjArray); //yes!
 
               dataArray.push(Graphs.vars.barData);
 
@@ -115,37 +107,11 @@ var settings = $.extend( {}, defaults, options );*/
 
         reset: function(tableObj, dataArray){
 
-          // WIP
-          //This needs to be re-coded to ensure each of the multiple graphs can be reset individually
-          
           //interate the array of data objects and reset each graph
-          $(tableObj).each(function(i){
-            console.log('from reset: ',dataArray[i]);
+          $(tableObj).each(function(i){            
             Graphs.resetGraph(dataArray[i]);
           });
 
-        },
-
-        //Reset graph settings and prepare for display
-        //used initially on load, as well as with the reset function
-        resetGraph: function(bars, barTimer, graphTimer){
-          //Set bar height to 0 and clear all transitions
-
-            //console.log(bars); //ISSUE with reset function: Currently returning an array of arrays rather than an array of objects
-
-            $.each(bars, function(i) {
-              $(bars[i].bar).stop().css({'height': 0, 'transition': 'none'});
-              //console.log($(bars[i].bar));
-            });
-            
-            // Clear timers
-            clearTimeout(barTimer);
-            clearTimeout(graphTimer);
-            
-            // Restart timer    
-            graphTimer = setTimeout(function() {    
-              Graphs.displayGraph(bars, 0);
-            }, 200);
         },
 
         //Main function: initialised with 2 arguments:
@@ -274,6 +240,7 @@ var settings = $.extend( {}, defaults, options );*/
           $genGraph.appendTo($genGraphContainer);
           
           //graph container to main container:
+          $(container).append('<div class="gg-wrap"></div>');
           $genGraphContainer.appendTo($container);
           
           //Reset graph settings and prepare for display          
@@ -346,13 +313,35 @@ var settings = $.extend( {}, defaults, options );*/
           // Changed the way we loop because of issues with $.each not resetting properly
           if (i < bars.length) {
             // Add transition properties and set height via CSS
-            $(bars[i].bar).css({'height': bars[i].height, 'transition': 'all 0.8s ease-out'});
+            $(bars[i].bar).css({'height': bars[i].height, 'transition': 'height ' +settings.barsTransitionSpeed+ 's ease'}); //'transition': 'all 0.8s ease-out'
             // Wait the specified time then run the displayGraph() function again for the next bar
             barTimer = setTimeout(function() {
               i++;        
               Graphs.displayGraph(bars, i);
             }, 100);
           }
+        },
+
+        //Reset graph settings and prepare for display
+        //used initially on load, as well as with the reset function
+        resetGraph: function(bars, barTimer, graphTimer){
+          //Set bar height to 0 and clear all transitions
+
+            //console.log(bars); //ISSUE with reset function: Currently returning an array of arrays rather than an array of objects
+
+            $.each(bars, function(i) {
+              $(bars[i].bar).stop().css({'height': 0, 'transition': 'none'});
+              //console.log($(bars[i].bar));
+            });
+            
+            // Clear timers
+            clearTimeout(barTimer);
+            clearTimeout(graphTimer);
+            
+            // Restart timer    
+            graphTimer = setTimeout(function() {    
+              Graphs.displayGraph(bars, 0);
+            }, 200);
         }
 
       };

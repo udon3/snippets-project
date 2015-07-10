@@ -10,7 +10,7 @@ module.exports = function(grunt) {
       }
     },
     scsslint: {
-      files: ['src/assets/scss/**/*.scss'],
+      files: ['src/assets/scss/**/*.scss', '!src/assets/scss/lib/**/*.scss'],
       options: {
         //bundleExec: true,
         config: '.scss-lint.yml',

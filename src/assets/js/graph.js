@@ -59,6 +59,7 @@ Graphs = {
 		//reset all graphs
 		var resetDataArray = Graphs.vars.barDataArray;
 		var $graphs = $('.gg');
+
 		$graphs.each(function(i){
 			Graphs.resetGraph(resetDataArray[i]);
 		});
@@ -262,8 +263,11 @@ Graphs = {
 	displayGraph: function(bars, i) {
 		// Changed the way we loop because of issues with $.each not resetting properly
 		if (i < bars.length) {
+			
 			// Add transition properties and set height via CSS
+
 			$(bars[i].bar).css({'height': bars[i].height, 'transition': 'all 0.8s ease-out'});
+			
 			// Wait the specified time then run the displayGraph() function again for the next bar
 			barTimer = setTimeout(function() {
 				i++;				

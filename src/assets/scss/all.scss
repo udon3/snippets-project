@@ -5,7 +5,9 @@
 
 //Import all partials here
 
+@import 'lib/normalize';
 @import 'base/variables';
+@import 'base/mixins';
 @import 'base/base';
 @import 'base/demo'; 
 @import 'animated-button';

@@ -5,28 +5,46 @@
       <meta name="viewport" content="width=1024">
       <title>Animated graphs</title>
       <link rel="stylesheet" href="/assets/css/all.css">
-      <style type="text/css">
-
-       
-      </style>  
       <script type="text/javascript" src="/assets/js/lib/modernizr.js"></script>
       
    </head>
 
    <body>
-      
+
+    <main>
       <h1>Dynamic graphs</h1>
 
       <p>WIP - refactoring and plugification in progress</p>
 
-      <a href="#" id="reset">Reset Graphs</a>
+      <ul>
+        <li>HTML table markup (each table needs an id)</li>
+        <li>Class hooks for styling each bar in a graph</li>
+        <li>Customise with CSS (SCSS)</li>
+        <li>Optional Y-Axis</li>
+        <li>Multiple tables on a page</li>
+        <li>Options:
+          <pre>
+useYAxis: false, //can omit the y-axis
+graphsContainerClass: 'tableGraphs', //useful for grouping graphs to trigger with scroll events
+graphTableWrapClass: 'tg-wrap', //individual table-graph wrapper, as children of the above
+genHeading: 'h3', //change if this needs to be another element (caption text will be reperesented)      
+headingClass: 'gg-caption', //class for the heading
+barsTransitionSpeed: '.8' //control graph bars transition speed
+
+          </pre>
+        </li>
+        <!-- <li></li>
+        <li></li>
+        <li></li> -->
+      </ul>
+
+
       
       <div class="tableGraphs">        
 
         <div class="tg-wrap">
-          <h2>Sample table/graph 1</h2>
           <table class="graph-table" id="data-table" summary="Table summary">
-             <caption>Some caption</caption>
+             <caption>Some caption for data set 1</caption>
              <thead>
                 <tr>
                    <th scope="col">2010</th>
@@ -48,10 +66,9 @@
           </table>
         </div>
 
-        <div class="tg-wrap">         
-          <h2>Sample table/graph 2</h2>
+        <div class="tg-wrap">   
           <table class="graph-table" id="data-table2" summary="Table description here">
-             <caption>Some caption</caption>
+             <caption>Some caption for data set 2</caption>
              <thead>
                 <tr>
                    <th scope="col">x10</th>
@@ -75,9 +92,8 @@
         </div>
 
         <div class="tg-wrap">
-             <h2>Sample table/graph 3</h2>
              <table class="graph-table" id="data-table3" summary="Table description here">
-                <caption>Some caption</caption>
+                <caption>Some caption for data set 3</caption>
                 <thead>
                    <tr>
                       <th scope="col">10</th>
@@ -99,32 +115,38 @@
              </table>
 
         </div> <!-- -->
-        
+
       </div>
 
+      <p><a href="#" id="reset">Reset Graphs</a></p>
+    </main>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.animatedgraphs.js"></script>
+    <script type="text/javascript">
+    //INIT:
+    $(document).ready(function() {
 
-      
-
-      <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.js"></script>
-      <script type="text/javascript" src="/assets/js/jquery.animatedgraphs.js"></script>
-      <script type="text/javascript">
-      //INIT:
-      $(document).ready(function() {
-
-        //animated graphs from data table:
-        //$('table').generateGraph({
-        //  complete: funtion(){ console.log('done!');}
-        //});
-       
-        $('table').generateGraph();
-
+      //animated graphs from data table:
+      //$('table').generateGraph({
+      //  complete: funtion(){ console.log('done!');}
+      //});
+     
+      $('table').generateGraph({
+        useYAxis: false, //can omit the y-axis
+        graphsContainerClass: 'tableGraphs', //there can be more than one wrapper on a page
+        graphTableWrapClass: 'tg-wrap', //individual table-graph wrapper, as children of the above
+        genHeading: 'h3', //change if this needs to be another element (caption text will be reperesented)      
+        headingClass: 'gg-caption', //class for the heading
+        barsTransitionSpeed: '.8' //in seconds
       });
 
-      </script>
+    });
 
-      <!--[if lte IE 9]>
-          <script src="/assets/js/ltie9.js"></script>
-      <![endif]-->
-   </body>
+    </script>
+
+    <!--[if lte IE 9]>
+        <script src="/assets/js/ltie9.js"></script>
+    <![endif]-->
+  </body>
 </html>
