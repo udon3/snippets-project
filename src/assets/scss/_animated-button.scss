@@ -1,0 +1,80 @@
+.btn-wrap {
+  display: inline-block;
+  height: 100px;
+  position: relative;
+  width: 30%;
+}
+
+.btn, 
+.btn2,
+.btn3 {
+  background-color: $white;
+  border-radius: 3px;
+  bottom: 0;
+  color: $grey;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 5px;
+  position: absolute;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  
+}
+
+//button with box-shadow
+.btn {
+  @include transition(transform .3s ease, box-shadow .3 ease);
+  box-shadow: 0 3px 0 $greylt;
+  margin: 0 0 3px;
+
+  &:hover,
+  &:focus {
+    @include transform(translate(0, 3px)); 
+    background-color: $greylt;  
+  }
+}
+
+//button using border
+.btn2 {
+  @include transition(border-bottom .3s ease);
+  border-bottom: 3px solid $greylt;
+
+  &:hover,
+  &:focus {
+    background-color: $greylt;
+    border-bottom: 0;
+  }
+}
+
+
+.btn--olive {
+  background-color: $olive;
+  box-shadow: 0 3px 0 $olivedk;
+  color: $white;
+
+  //use transform: translate + transition for animation effect
+  &:hover,
+  &:focus {
+    background-color: $olivedk;
+  }
+
+  &.btn2 {
+    border-color: $olivedk;
+    box-shadow: none;
+  }
+}
+
+.btn--big {
+  font-size: 24px;
+  padding: 15px 20px;
+}
+
+.btn__number {
+  font-size: .8em;
+}
+
+.btn__text {
+  color: $black;
+}

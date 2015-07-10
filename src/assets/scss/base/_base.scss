@@ -1,0 +1,47 @@
+//---------------Base styles------------
+
+// Box-sizing:border-box for all
+html {
+  box-sizing: border-box;
+}
+
+*, 
+*:before, 
+*:after {
+  box-sizing: inherit;
+}
+
+// Position:relative for all
+* {
+  position: relative;
+}
+
+body {
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+// links
+a {
+  text-decoration: underline;
+
+  &:hover, 
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+sub {
+  bottom: 0;
+}
+
+// lists
+ul, 
+ol {
+  padding-left: 2em;
+}
+
+button {
+  outline: 0;
+}
+

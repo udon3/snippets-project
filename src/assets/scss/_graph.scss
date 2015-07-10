@@ -1,0 +1,182 @@
+//set all to pos rel if not already set elsewhere
+* {
+  position: relative;
+}
+
+//Animated graphs from table html
+
+//hide table with js
+.js .graph-table {
+  display: none;
+}
+
+
+//VARIABLES
+$colsnum: 5;
+$bars-height: 400px;
+$graph-height: 400px;
+$bar-width: 24px;
+$barcol-width: 30px;
+$xaxis-height: 30px;
+$yaxis-width: $barcol-width * $colsnum;
+$caption-height: 30px;
+$yunit-height: $bars-height/$colsnum;
+$overfigure-bg: #cecece;
+
+
+//TABLES STYLES for non JS-enabled
+.graph-table {
+  border-collapse: collapse;
+  width: 540px;
+
+  caption {
+    padding: 0;
+    text-align: left;
+  }
+
+  th, 
+  td {
+    margin: 0;
+    padding: 10px;
+    text-align: left; 
+  }
+}
+
+.tg-wrap { //default table-graph wrapper class (for demo purposes)
+  display: inline-block;
+  margin-right: 1%;
+  width: 30%;
+}
+
+//GENERATED GRAPH STYLES
+
+//generated graph - styling
+.gg-wrap { //default class for generated graph wrapper element
+  //height: $bars-height + $caption-height + $xaxis-height; 
+
+  .gg-caption { //default class for heading generated from table caption
+    height: $caption-height;
+    margin: 0;
+  }
+
+}
+
+//The graph element box
+.gg {
+  height: $bars-height + $xaxis-height; 
+}
+
+
+// X-Axis 
+.gg__x-axis {
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+
+  span {
+    border: solid 1px $purple;
+    display: inline-block;
+    width: $barcol-width;
+  }
+}
+
+// Y-Axis 
+.gg__y-axis {
+  position: absolute;
+  text-align: right;
+  width: $yaxis-width;
+
+  li {
+    border-top: 1px solid $grey; //background horizontal lines
+    display: block;
+    height: $yunit-height;
+    width: 100%;  
+
+    span {
+      display: block;
+      margin: -10px 0 0 -60px;
+      padding: 0 10px;
+      width: 40px;
+    }
+  }
+}
+
+// Graph Bars 
+.gg__bars {                   
+  border: 1px solid $red;
+  height: $bars-height; //need to fix height
+  position: absolute;
+  z-index: 10;
+
+  .gg__bar-wrap {            
+    border: solid 1px $green; 
+    display: inline-block;
+    height: 100%;
+    //padding: 0 15px;
+    
+    width: $barcol-width;
+    //width: 76px;
+
+    
+
+  }
+
+  .gg__bar {
+    bottom: 0;
+    cursor: pointer; 
+    height: 0; 
+    left: 0;
+    position: absolute;
+    text-align: center;
+    width: $bar-width;
+
+    //mouseover bar reveals figures
+    span {
+      @include transition(all .2s ease-out);
+      background: $overfigure-bg;
+      display: block;
+      left: -8px;
+      margin: 0;        
+      opacity: 0;
+      width: 40px;
+      //z-index: 20;
+    }
+
+    &:hover span {
+      display: block;
+      margin-top: -25px;
+      opacity: 1;
+    }
+
+    em {
+      bottom: -20px;
+      position: absolute;
+    }
+
+    //set individual bar colours
+    
+    &.bar-0 {
+      background-color: $orange;
+    }
+
+    &.bar-1 {
+      background-color: $yellow;
+    }
+
+    &.bar-2 {
+      background-color: $green;
+    }
+
+    &.bar-3 {
+      background-color: $blue;
+    }
+
+    &.bar-4 {
+      background-color: $purple;
+    }
+
+  }
+
+  
+}
+

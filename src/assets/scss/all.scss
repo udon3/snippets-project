@@ -1,0 +1,15 @@
+@charset 'utf-8';
+
+// Use Compass
+@import 'compass';
+
+//Import all partials here
+
+@import 'base/variables';
+@import 'base/base';
+@import 'base/demo'; 
+@import 'animated-button';
+@import 'graph';
+//@import '_navscroll';
+//@import '_rotate';
+//@import '_css-animation';
