@@ -90,10 +90,7 @@ var settings = $.extend( {}, defaults, options );*/
             var $graphwrap = $(settings.graphTableWrapClass), //html code individual table/graph wrapper
                 $tables = $('table', $graphsContainer); //array of all tables in the big graphs wrapper
 
-            
-
             (function(){
-
               //Create graph from the data table(tableId) 
               //and specify a container for it (chartContainer)
               var tableId =  '#' + tableObj.id,
@@ -101,22 +98,54 @@ var settings = $.extend( {}, defaults, options );*/
 
               Graphs.createGraph(tableId, chartContainer);
 
-              dataArray.push(Graphs.vars.barData);
-              
-            })();     
-          } 
+              var barDataObjArray = Graphs.vars.barData;
+              console.log('am i array of objs?',barDataObjArray); //yes!
 
-          Graphs.vars.barDataArray = dataArray;
-          //console.log('from init', Graphs.vars.barDataArray);
+              dataArray.push(Graphs.vars.barData);
+
+              $('#reset').on('click', function(){ 
+                //passing the object('this'), and an array of data objects 
+                Graphs.reset(tableObj, dataArray);
+              });
+              
+            })();  
+
+          } 
         },
 
-        reset: function(){
-          //reset all graphs
-          var resetDataArray = Graphs.vars.barDataArray;
-          var $graphs = $('.gg');
-          $graphs.each(function(i){
-            Graphs.resetGraph(resetDataArray[i]);
+        reset: function(tableObj, dataArray){
+
+          // WIP
+          //This needs to be re-coded to ensure each of the multiple graphs can be reset individually
+          
+          //interate the array of data objects and reset each graph
+          $(tableObj).each(function(i){
+            console.log('from reset: ',dataArray[i]);
+            Graphs.resetGraph(dataArray[i]);
           });
+
+        },
+
+        //Reset graph settings and prepare for display
+        //used initially on load, as well as with the reset function
+        resetGraph: function(bars, barTimer, graphTimer){
+          //Set bar height to 0 and clear all transitions
+
+            //console.log(bars); //ISSUE with reset function: Currently returning an array of arrays rather than an array of objects
+
+            $.each(bars, function(i) {
+              $(bars[i].bar).stop().css({'height': 0, 'transition': 'none'});
+              //console.log($(bars[i].bar));
+            });
+            
+            // Clear timers
+            clearTimeout(barTimer);
+            clearTimeout(graphTimer);
+            
+            // Restart timer    
+            graphTimer = setTimeout(function() {    
+              Graphs.displayGraph(bars, 0);
+            }, 200);
         },
 
         //Main function: initialised with 2 arguments:
@@ -247,11 +276,10 @@ var settings = $.extend( {}, defaults, options );*/
           //graph container to main container:
           $genGraphContainer.appendTo($container);
           
-          //Reset graph settings and prepare for display
+          //Reset graph settings and prepare for display          
           Graphs.resetGraph(bars, barTimer, graphTimer);
           //console.log('the data going to resetGraph function: ', bars); 
           Graphs.vars.barData = bars;
-
         },
 
         //add bars to graph
@@ -325,32 +353,14 @@ var settings = $.extend( {}, defaults, options );*/
               Graphs.displayGraph(bars, i);
             }, 100);
           }
-        },
-
-        //Reset graph settings and prepare for display
-        resetGraph: function(bars, barTimer, graphTimer){
-          //Set bar height to 0 and clear all transitions
-            //console.log(bars);
-            $.each(bars, function(i) {
-              $(bars[i].bar).stop().css({'height': 0, 'transition': 'none'});
-              //console.log($(bars[i].bar));
-            });
-            
-            // Clear timers
-            clearTimeout(barTimer);
-            clearTimeout(graphTimer);
-            
-            // Restart timer    
-            graphTimer = setTimeout(function() {    
-              Graphs.displayGraph(bars, 0);
-            }, 200);
         }
 
       };
 
       Graphs.init();
+     
+      //$('#reset').on('click',function(){ Graphs.reset();});
     }
-    
 
   };
  
@@ -365,33 +375,3 @@ var settings = $.extend( {}, defaults, options );*/
 
 
 
-
-
-
-
-
-/*
-
-(function( $ ) {
- 
-    $.fn.showLinkLocation = function() {
-
-      var defaults = {
-        color: "#556b2f",
-        backgroundColor: "white"
-      }
-      var settings = $.extend({}, defaults, options );
- 
-        this.filter( "a" ).each(function() {
-            var link = $( this );
-            link.append( " (" + link.attr( "href" ) + ")" );
-        });
- 
-        return this;
- 
-    };
- 
-}( jQuery ));*/
- 
-// Usage example:
-//$( "a" ).showLinkLocation();
