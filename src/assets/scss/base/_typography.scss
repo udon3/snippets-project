@@ -1,0 +1,65 @@
+//Typography
+
+//Fonts
+
+
+//Set base font-size to be 1em = 10px rather than 16px:
+// html { 
+  //font-size: 62.5%; 
+//}
+
+//Font-sizing idea from CSS-Tricks:
+//- enable scaling of font-sizes, but not at root document level, but setting sizes in rem units for each module
+
+//Document level adjustments:
+html {
+  //default is mobile
+  font-size: 22px; 
+
+  @include bp(tabletland) {
+    font-size: 20px; 
+  }
+
+  @include bp(desktop) {
+    font-size: 18px; 
+  }
+
+}
+
+
+
+// Modules will scale with document
+// needs a fallback for IE8 and older
+header {
+  //font-size: 1.5rem;
+  @include rem-font-size(1.5);
+}
+
+main {
+  @include rem-font-size(1);
+}
+
+footer {
+  @include rem-font-size(.8);
+}
+
+aside {
+  @include rem-font-size(.9);
+}
+
+// Type will scale with modules
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2.5em;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 1em;
+}

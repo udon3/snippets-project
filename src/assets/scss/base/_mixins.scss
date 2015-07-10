@@ -1,0 +1,62 @@
+//Rem font size with px fallback for IE 8 and older
+//assume base font-size set to 62.5% (so that default font-size is 10px, not 16px)
+@mixin rem-font-size($size-value: 1.6) {
+  font-size: ($size-value * 10) + px;
+  font-size: $size-value + rem;
+} 
+
+
+//mediaquery breakpoints mixin:
+@mixin bp($point) {
+  // mobile-first
+
+  //standard mobile 
+  @if $point == mobileonly {
+    @media (max-width: 640px) { @content ; }
+    //standard: 360x640
+    // iphone6: 375x667 
+    // iphone6+: 414x736
+    // galaxy S5: 360x640
+  }
+
+  //most tablets portrait 
+  @if $point == tabletport {
+    @media (min-width: 768px) { @content ; }
+    //galaxy tab 10.1: 1280x800
+    //Nexus 7: 601x906
+    //Kindle Fire HD 7: 800x1280
+    //Kindle Fire HD 8.9: 1200x1600
+  }
+
+  //most tablets landscape 
+  @if $point == tabletland {
+    @media (min-width: 1024px) { @content ; }
+  }
+
+  //laptop (large tablet, small desktop)
+  @if $point == laptop {
+    @media (min-width: 1200px) { @content ; }
+  }
+
+  //standard desktop
+  @if $point == desktop {
+    @media (min-width: 1400px) { @content ; }
+  }
+
+  //wide 
+  @if $point == wide {
+    @media (min-width: 1921px) { @content ; }
+  }
+ 
+  
+
+}
+
+//getting started with BEM??
+//BEM - c.f https://css-tricks.com/bem-101/
+@mixin element($name) {
+  @at-root &__#{$name} //this throws a scss-lint warning SpaceBeforeBrace
+  {
+    @content;
+  }
+}
