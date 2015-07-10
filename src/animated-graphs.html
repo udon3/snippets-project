@@ -98,7 +98,7 @@
                 </tbody>
              </table>
 
-        </div>
+        </div> <!-- -->
       </div>
 
 
@@ -110,10 +110,14 @@
       <script type="text/javascript">
       //INIT:
       $(document).ready(function() {
+
         //animated graphs from data table:
+        //$('table').generateGraph({
+        //  complete: funtion(){ console.log('done!');}
+        //});
        
-        $('h1').greenify({color: "#f00"});
-        //$( "a" ).showLinkLocation();
+        $('table').generateGraph();
+
       });
 
       </script>
