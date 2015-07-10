@@ -49,18 +49,37 @@ var settings = $.extend( {}, defaults, options );*/
       genGraph: '<div class="gg"></div>', //generated graph element
       genBars: '<div class="gg__bars"></div>', //Bars for generated graph element
       genBarGroup: '<div class="gg__bar-wrap"></div>' //generated bar group (column for each bar)
-    }
+    };
 
     // This is the easiest way to have default options.
-    var settings = $.extend({}, defaults, options );
+    var settings = $.extend({
+      complete     : null // set up for a callback
+    }, defaults, options );
 
 
 
     // return, so that the plugin action can be chainable
     // the this keyword refers to the object the function is called on, and we iterate through each matching dom object with $.each()
     return this.each(function() {
-        // Plugin code would go here...
-    });;
+      // Plugin code would go here...
+
+      //allow for call backs:
+      if ($.isFunction(settings.complete)) {
+        settings.complete.call(this);
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+    });
 
   };
  
