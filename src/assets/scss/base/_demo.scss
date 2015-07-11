@@ -21,12 +21,27 @@
 
 
 //animated graphs demo
-.tg-wrap {
+.tg__single {
   background: $greydk;
   color: $white;
   display: inline-block;
+  margin-bottom: 20px;
   margin-right: 1%;
   padding: 20px;
+  width: 80%;
+}
+
+.tg--group__single {
   width: 30%;
 
+  .gg__bars,
+  .gg__bar-wrap {
+    border: 0;
+  }
+}
+
+
+//navscroll demo
+.navscroll-demo {
+  width: 500px;
 }

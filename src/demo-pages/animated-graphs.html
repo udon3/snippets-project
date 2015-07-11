@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=1024">
+      <title>Animated graphs</title>
+      <link rel="stylesheet" href="/assets/css/all.css">
+      <script type="text/javascript" src="/assets/js/lib/modernizr.js"></script>
+      
+   </head>
+
+   <body>
+
+    <main>
+      <h1>Dynamic graphs</h1>
+
+      <p>WIP - refactoring and plugification in progress</p>
+
+      <ul>
+        <li>HTML table markup (each table needs a unique id)</li>
+        <li>Each graph is generated and appended to the table's container element</li>
+        <li>Class hooks for styling each bar in a graph</li>
+        <li>Customise with CSS (SCSS)</li>
+        <li>Optional Y-Axis</li>
+        <li>Optional tooltip effect on bar data</li>
+        <li>Multiple tables on a page</li>
+        <li>The tables scan be displayed/hidden via CSS with a js-enabled class on html</li>
+        <li>Options: (with default values)
+          <pre>
+hideTable: true,                      //option to show the table as well
+tableClass: 'graph-table',            //there can be more than one wrapper on a page
+genHeading: 'h3',                     //option to change header tag (uses table caption) 
+headingClass: 'gg-caption',           //class for the heading (do we need this?)   
+useYAxis: true,                       //option to omit the y-axis
+yAxisSegments: 5,                     //only set if useYAxis is true  
+barsMultiColour: true,                //false if no hooks needed for colouring each bar differently
+barsTransitionSpeed: '.8'             //control graph bars transition speed
+barTooltips: false,                   //show bar data text on hover 
+complete: function(){}                //callback on complete
+          </pre>
+        </li>
+        <li>To do: additional script for horizontal bars?!?!</li>
+      </ul>
+
+      
+      <div class="tg">        
+
+        <div class="tg__single">
+          <table class="graph-table" id="data-table" summary="Table summary">
+            <caption>Some caption for data set 1</caption>
+            <thead>
+              <tr>
+                <th scope="row">Year</th>
+                <th scope="col">2010</th>
+                <th scope="col">2011</th>
+                <th scope="col">2012</th>
+                <th scope="col">2013</th>
+                <th scope="col">2014</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">numbers</th>
+                <td>140</td>
+                <td>80</td>
+                <td>40</td>
+                <td>20</td>
+                <td>50</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tg__single">   
+          <table class="graph-table" id="data-table2" summary="Table description here">
+            <caption>Some caption for data set 2</caption>
+            <thead>
+              <tr>
+                <th scope="col">jan</th>
+                <th scope="col">feb</th>
+                <th scope="col">mar</th>
+                <th scope="col">apr</th>
+                <th scope="col">may</th>
+                <th scope="col">jun</th>
+                <th scope="col">jul</th>
+                <th scope="col">aug</th>
+                <th scope="col">sep</th>
+                <th scope="col">oct</th>
+                <th scope="col">nov</th>
+                <th scope="col">dec</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>122</td>
+                <td>240</td>
+                <td>1080</td>
+                <td>980</td>
+                <td>608</td>
+                <td>22</td>
+                <td>240</td>
+                <td>1080</td>
+                <td>980</td>
+                <td>608</td>
+                <td>212</td>
+                <td>240</td>
+              </tr>
+            </tbody>
+          </table>               
+          
+        </div>
+
+        <div class="tg__single">
+          <table class="graph-table" id="data-table3" summary="Table description here">
+            <caption>Some caption for data set 3</caption>
+            <thead>
+              <tr>
+                <th scope="col">10</th>
+                <th scope="col">11</th>
+                <th scope="col">12</th>
+                <th scope="col">13</th>
+                <th scope="col">14</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>10</td>
+                <td>100</td>
+                <td>60</td>
+                <td>112</td>
+                <td>20</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div> 
+
+
+        <!-- a grouped set of tables initialised with the same settings:-->
+        <div class="tg tg--group">
+          
+          <div class="tg__single tg--group__single">
+            <table class="group-table" id="data-table4" summary="Table description here">
+              <caption>Some caption for data set 4</caption>
+              <thead>
+                <tr>
+                  <th scope="col">13</th>
+                  <th scope="col">14</th>
+                  <th scope="col">15</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>60</td>
+                  <td>112</td>
+                  <td>20</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div class="tg__single tg--group__single">
+            <table class="group-table" id="data-table5" summary="Table description here">
+              <caption>Some caption for data set 5</caption>
+              <thead>
+                <tr>
+                  <th scope="col">13</th>
+                  <th scope="col">14</th>
+                  <th scope="col">15</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>200</td>
+                  <td>12</td>
+                  <td>50</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div class="tg__single tg--group__single">
+            <table class="group-table" id="data-table6" summary="Table description here">
+              <caption>Some caption for data set 6</caption>
+              <thead>
+                <tr>
+                  <th scope="col">13</th>
+                  <th scope="col">14</th>
+                  <th scope="col">15</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>11</td>
+                  <td>20</td>
+                  <td>60</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+      </div>
+
+      <p><a href="#" id="reset">Reset Graphs</a></p>
+    </main>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.animatedgraphs.js"></script>
+    <script type="text/javascript">
+    //INIT:
+    $(document).ready(function() {
+
+      //initialise animated graphs from data tables:
+
+      $('#data-table').generateGraph({
+        useYAxis: false, //(default) omit the y-axis 
+        genHeading: 'h3', //(default) table caption text will be reperesented in this element     
+        headingClass: 'gg-caption', //(default) class for the heading
+        barsTransitionSpeed: '.8', //in seconds
+        barsMultiColour: true,
+        barTooltips: true, 
+        complete: function(){ /*call back*/}
+      });
+
+
+      $('#data-table2').generateGraph({
+        barsTransitionSpeed: '.3', //in seconds        
+        barsMultiColour: false
+      });
+
+
+      $('#data-table3').generateGraph({
+        barsTransitionSpeed: '.8', //in seconds        
+        barsMultiColour: true,
+        complete: function(){ /*call back*/}
+      });
+
+
+      //grouped set of tables:
+      $('.group-table').generateGraph({
+        useYAxis: false, //(default) omit the y-axis 
+        genHeading: 'h3', //(default) table caption text will be reperesented in this element     
+        headingClass: 'gg-caption', //(default) class for the heading
+        barsTransitionSpeed: '.8', //in seconds
+        barsMultiColour: true,
+        complete: function(){ /*call back*/}
+      });
+
+    });
+
+    </script>
+
+    <!--[if lte IE 9]>
+        <script src="/assets/js/ltie9.js"></script>
+    <![endif]-->
+  </body>
+</html>
