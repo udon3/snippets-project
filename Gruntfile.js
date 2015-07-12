@@ -6,7 +6,7 @@ module.exports = function(grunt) {
       dist: {                   // Target
         options: {              // Target options
           config: 'config.rb'
-        }
+        },
       }
     },
     scsslint: {

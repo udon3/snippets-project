@@ -1,10 +1,16 @@
 .wrap {
-  width: 500px;
+  width: 100%;
 }
 
-//viewport demo
-.wrapper {
-  width: 100%;
+header {
+
+  .centre {
+    @include centre(90%);
+  }
+}
+
+main {
+  @include centre(90%);
 }
 
 .centre {
@@ -12,7 +18,7 @@
   margin: auto;
   max-width: 1190px;
   overflow: hidden;
-  width: 1024px;
+  width: 90%;
 }
 
 .content {
@@ -41,7 +47,25 @@
 }
 
 
-//navscroll demo
-.navscroll-demo {
-  width: 500px;
+//scroll-nav demo
+.scroll-nav-enabled {
+  background: $greydk;
+  color: $white;
+
+  main {
+    width: 100%;
+  }
+
+  .content {
+    @include centre(800px);
+    background: $white;
+    color: $black;
+  }
+}
+
+//viewport demo
+.viewprt-demo {
+  .wrapper {
+    width: 100%;
+  }
 }

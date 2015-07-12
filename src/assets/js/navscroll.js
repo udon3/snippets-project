@@ -3,12 +3,12 @@ if (typeof NavScroll === "undefined") {
 }
 
 NavScroll = {
-  /*vars: {
+  vars: {
     topMenuHeight: 104,
     sectionVSpace: 50, //adjustment for the point at which active item will change
     headerOffset: 0,
     lastId: ''
-  },*/
+  },
 
   DOM: {
     $window: null,

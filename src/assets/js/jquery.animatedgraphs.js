@@ -58,13 +58,12 @@
           barData: null
         },
 
+        //init function invoked after all Graphs methods anad properties
         init: function(){
 
-          var $tables = $('.'+settings.tableClass);
-
-          var dataArray = [];
-
-          var tableObj = object;
+          var $tables = $('.'+settings.tableClass),
+              dataArray = [],
+              tableObj = object;
 
           if ($tables.length > 0){
 

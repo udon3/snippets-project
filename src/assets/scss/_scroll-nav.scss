@@ -1,0 +1,45 @@
+//variables 
+
+$orange: #f90;
+$red: #f00;
+$purple: #800080;
+
+
+
+.scroll-nav {
+  background: $orange;
+  position: relative;
+
+  a {
+
+    &.active {
+      border: 2px solid $purple;
+    }
+  }
+}
+
+//optional, for sticky nav
+.scroll-nav--sticky {
+  @include centre(90%);
+  opacity: .9;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+
+}
+
+
+.content {
+  //margin-top: 150px;
+  padding-top: 0;
+
+  // additional opacity on scroll bit
+  section {
+    //@include transition(opacity .3s ease-in-out);
+    //opacity: 1;
+    
+    &.is-obscured {
+      //opacity: 0;
+    }
+  }
+}

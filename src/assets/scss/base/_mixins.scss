@@ -6,6 +6,7 @@
 } 
 
 
+
 //mediaquery breakpoints mixin:
 @mixin bp($point) {
   // mobile-first
@@ -51,6 +52,25 @@
   
 
 }
+
+//Shortcuts mixins
+
+
+@mixin centre($width){
+  left: 50%;
+  transform: translateX(-50%);
+  width: $width;
+
+  // >ie9
+  .no-csstransforms & {
+    left: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: $width;
+  }
+}
+
+
 
 //getting started with BEM??
 //BEM - c.f https://css-tricks.com/bem-101/
