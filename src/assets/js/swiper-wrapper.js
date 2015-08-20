@@ -1,4 +1,9 @@
-// wrapper methods for plugins
+// wrapper function for Swiper
+
+//set up namespace
+if(typeof window.SwiperWrapper === "undefined") {
+	window.SwiperWrapper = {};
+}
 
 SwiperWrapper = {
 	
@@ -10,7 +15,7 @@ SwiperWrapper = {
 
 		init: function(){
 			$('html').addClass('swiper-enabled');
-			var titles = ['Overview', 'About', 'Group', 'Regional'];
+			var titles = ['One', 'Two', 'Three', 'Four'];
 			var $floatbox = $('.floatbox'),
 					sections = $('section', $floatbox),
 					$assuranceTag = $('.level-of-assurance', $floatbox);

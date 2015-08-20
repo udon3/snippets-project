@@ -84,7 +84,7 @@
 }
 // Usage:
 .hide-text-from-browser {
-  @include hide-text(200px, 200px, '../images/recycle.svg');
+  @include hide-text(100px, 100px, '../images/clubs.svg');
   display: inline-block;  
 
   //lte ie8 (using modernizr)
@@ -116,22 +116,22 @@
     }
   }
   -webkit-animation: $animations;
-  -moz-animation:    $animations;
-  -o-animation:      $animations;
-  animation:         $animations;
+  -moz-animation: $animations;
+  -o-animation: $animations;
+  animation: $animations;
 }
 
-@mixin keyframes($animationName) {
-  @-webkit-keyframes #{$animationName} {
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
     @content;
   }
-  @-moz-keyframes #{$animationName} {
+  @-moz-keyframes #{$animation-name} {
     @content;
   }
-  @-o-keyframes #{$animationName} {
+  @-o-keyframes #{$animation-name} {
     @content;
   }
-  @keyframes #{$animationName} {
+  @keyframes #{$animation-name} {
     @content;
   }
 }
@@ -144,3 +144,4 @@
 // .object-to-animate {
 //   @include animation('move-the-object .5s 1', 'move-the-object-again .5s 1 .5s');
 // } 
+

@@ -68,7 +68,7 @@ $olivedk: #6b7a32;
 //image button
 .img-btn {
   @include border-radius(50%);
-  background: $greylt url(../images/recycle.svg) no-repeat center;
+  background: $greylt url('../images/recycle.svg') no-repeat center;
   background-size: 100%;
   border: solid 3px $greylt;
   display: inline-block;
@@ -80,8 +80,8 @@ $olivedk: #6b7a32;
 .btn--transition {
   @include transition(transform 1s ease);
   @include rotate(0deg); 
-  -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
 
   &:hover {
     @include rotate(90deg); 
@@ -92,13 +92,13 @@ $olivedk: #6b7a32;
 .btn--animation {
   -webkit-animation: spin-pulse 3s linear infinite;
   animation: spin-pulse 3s linear infinite;
-  /* paused initially */
+  // paused initially 
   -webkit-animation-play-state: paused; 
   animation-play-state: paused; 
   -webkit-backface-visibility: hidden;
 
   &:hover {
-    /* Toggle our animation play state to running when we are hovering over our sticker */
+    // Toggle animation play state to running when we are hovering over our sticker
     animation-play-state: running;
   }
 }
