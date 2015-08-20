@@ -1,0 +1,556 @@
+
+// Site variables 
+
+//fonts - see typography
+
+
+/* site colours */
+$color-dk: #333; 
+
+
+$text: #546e7a; // dark grey-green: nav links left, footer links, copy text
+
+$dkblue: #1c3b78; //previously #153675; //dark blue: nav links right, small headings(section headers)
+$midblue: #94b7bb;//larger headings, downloads headings
+
+$dkgreen: #3d6063; // dark green buttons
+$shade-dkgreen: #324f51; //darker green
+$orange: #df5d31; //regional performance - scrollnav and buttons
+$burnt-orange: #99462c; //buttons
+$shade-orange: #5c2b16; //darker orange
+$aqua: #73b4bb; //home intro and about box, about scrollnav
+$blue: #49a4d6; //home group performance box bg
+$dkblue-btn: #226385; //blue buttons
+$shade-dkblue: #1e4961; //blue shadow
+$olive: #80991c; //olive green (about us)
+$home-olive: #9bb448; //olive green home box
+$shade-olive: #6b7a32;
+$lime: #89e10b;
+
+$numgreen: #c3cf21;
+$keyline: #b0bec5; //as used with pullout figures
+
+$nav-bg: #226385; // slideout nav bg
+$bg-lt: #f5f5f5; // footer bg
+
+$white: #fff;
+$black: #000;
+$error: #ff0000;
+
+$shared-value-bg: #57707b;
+
+//measurements
+
+//sticky header height
+$header-h: 7em;
+$header-h-dt: 10em; //desktop
+$scrollnav-h: 5em;
+
+$mobile-pad: 0 20px 0 25px;
+$mobile-pad-l: 25px;
+$mobile-pad-r: 20px;
+
+$bmargin-h-mob: 3em; //bottom margin height for segments (needed for mobile)
+
+$slidemenu-lpad-dt: 55px;
+/*-----------------------------------
+-----------------mixins--------------
+-------------------------------------*/
+
+//mixins for common usage
+@mixin fontsize ($size, $line-height){
+  font-size: $size;
+  line-height: $line-height;
+}
+
+
+//extend-only placeholders
+%clearfix {
+  zoom:1;
+  
+  &:before, &:after {
+    content: "\0020"; 
+    display: block; 
+    height: 0; 
+    overflow: hidden; 
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+/*-----------------------------------
+---------media queries mixins--------
+-------------------------------------*/
+
+@mixin bp($width) {
+  
+  $_bp-mobile-portrait: 320px;
+  $_bp-mobile: 640px;		//320px
+  //$_bp-phablet: 37.5em;	//600px
+  $_bp-phablet: 1023px;		//as max
+  //$_bp-desktop-min: 1024px;   //use with bp-mobile for setting small
+  $_bp-desktop: 1024px;   //1024px +
+  $_bp-medium-max: 1180px; //as max width (for bp-smalldesktop)
+  $_bp-wide: 1600px; 			//1600px +
+
+  @if $width == mobileportrait {
+    @media screen and (max-width: $_mobile-portrait) {@content ;}
+  }
+
+  @if $width == mobileonly {
+    @media screen and (max-width: $_bp-mobile) {@content ;}
+  }
+
+  @if $width == phablet {
+    @media screen and (min-width: $_bp-mobile) and (max-width: $_bp-phablet) {@content ;}
+  }
+
+  @if $width == desktop {
+    @media screen and (min-width: $_bp-desktop) {@content ;}
+  }
+
+  @if $width == wide {
+    @media screen and (min-width: $_bp-wide) {@content ;}
+  }
+
+  //extra sizes:  
+  //small screen: 320 - 639
+  @if $width == small {
+    @media screen and (min-width: 321px) and (max-width: 639px) {@content ;} 
+  }
+
+  //small screen: 639 - 1023
+  @if $width == smallandup {
+    @media screen and (min-width: 640px) {@content ;} 
+  }
+
+  //small-medium: 1024 - 1180
+  @if $width == smallmedium {
+    @media screen and (min-width: $_bp-desktop) and (max-width: $_bp-medium-max) {@content ;}
+  }
+
+  //medium screen: 1024 - 1600
+  @if $width == medium {
+    @media screen and (min-width: $_bp-desktop) and (max-width: $_bp-wide) {@content ;}
+  }
+ 
+  
+}
+
+//another set of mediaqueries to address height issues
+
+@mixin mq($size) {
+  //Homepage for samsung tab 3 (1024x600)
+  @if $size == heightlimited {
+    @media screen and (max-height: 599px) {@content ;}
+  }
+  //Home swiper kicks in at this size and up
+  @if $size == swiperready {
+    @media screen and (min-width: 1024px) and (min-height: 600px) {@content ;}
+  }
+  //Home swiper, but height restriction
+  @if $size == swiper_heightlimited {
+    //@media screen and (max-height: 850px) {@content ;}
+    @media screen and (max-height: 850px) {@content ;}
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------
+	Homepage Swiper Customisation styles
+	DESKTOP ONLY
+--------------------------------------*/
+//Dependencies: /css/vendor/swiper.css, /js/vendor/swiper.jquery.min.js
+
+html.swiper-enabled, 
+.swiper-enabled body {
+  height: 100%;
+  //position: relative;
+
+	//@include bp(desktop){	
+	@include mq(swiperready){
+
+		.swiper-container {
+			display: block;
+	    height: 100%;
+	    width: 100%;
+	    //top: -$header-h; //offset for header (causes firefox y scrollbar issue, so making header pos fixed, as other pages)
+			
+			.swiper-wrapper,
+			.swiper-pagination {
+				display: block;
+			}
+		}
+		
+		.swiper-slide {
+			text-align: left;
+			font-size: 18px;
+			background: #fff;
+
+			/* Center slide text vertically */
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			-webkit-align-items: center;
+			align-items: center;
+			
+			//1024x
+			&.intro {
+				background: url(http://placehold.it/1024x800/5BD3FF/333333) no-repeat center;
+				background-size: cover;
+			}
+
+			&.about {
+				background: url(http://placehold.it/1024x800/70FF68/333333) no-repeat center;
+				background-size: cover;
+			}
+
+			&.group {
+				background: url(http://placehold.it/1024x800/FCFFCD/333333) no-repeat center;
+				background-size: cover;
+			}
+
+			&.regional {
+				background: url(http://placehold.it/1024x800/FFCF40/333333) no-repeat center;
+				background-size: cover;
+			}
+
+			@include bp(wide){
+				//1600x900 jpgs:
+				&.intro {
+					background: url(http://placehold.it/1600x900/5BD3FF/333333) no-repeat center;
+					background-size: cover;
+				}
+
+				&.about {
+					background: url(http://placehold.it/1600x900/70FF68/333333) no-repeat center;
+					background-size: cover;
+				}
+
+				&.group {
+					background: url(http://placehold.it/1600x900/FCFFCD/333333) no-repeat center;
+					background-size: cover;
+				}
+
+				&.regional {
+					background: url(http://placehold.it/1600x900/FFCF40/333333) no-repeat center;
+					background-size: cover;
+				}
+			}
+
+		}  
+
+		/* container for overid box */
+		.floatbox-container {
+		  height: 100%;//77%;
+			left: 0;
+			overflow-y: auto;
+		  padding: 0;
+			position: absolute;
+			//top: $header-h;
+			top: 20%;
+		  width: 100%;
+			z-index: 20;
+
+			@include bp(smallmedium){
+				margin-top: -25%;
+				top: 50%;
+			}
+			@include mq(swiper_heightlimited){ 
+				margin-top: -200px;
+  			top: 50%;
+			}
+
+		}
+
+		/*overlaid box*/
+		.floatbox {
+			//height: 80%;
+			max-height: 85em;
+			min-width: 61em;
+			max-width: 68.5em;
+			overflow: hidden;
+			width: 57%;
+			z-index: 100;
+			
+			.sections-wrapper {
+				height: 590px;
+				overflow: hidden;	
+
+				@include mq(swiper_heightlimited){
+					height: 480px;//560px;
+				}			
+			}
+
+			section {
+				//@include transition(opacity 1s ease-in-out);
+				//@include transition(z-index 1s ease-in-out);
+				@include border-radius(2px);
+				@include transition(z-index .5s linear, opacity .5s ease-in .2s);
+				min-width: 6.6em;
+				max-width: 100%;
+				height: 100%;//max 768
+			  top: 0;
+			  left: 0;
+				position: absolute;
+				z-index: -1;	
+				opacity: 0;	
+
+
+				.content {	
+					//@include transition(top .7s ease-in, opacity .5s ease-in .2s);
+					@include transition(top 1s ease-in, opacity 0.5s ease-in 0.5s);
+					min-height: 570px;
+					opacity: 0;	
+					//padding: 6em 5em 2em;
+					padding: 7% 7% 0%;
+					top: 50%;
+
+					@include mq(swiper_heightlimited){
+						font-size: 96%;
+						min-height: 450px;
+						padding: 3% 5% 0%;
+					}	
+				}	
+
+				&.active {
+					z-index: 1;
+					opacity: 1;	
+
+					.content {						
+						opacity: 1;
+						top: 0;
+						
+					}
+				}
+
+				img {
+					display: none;
+				}
+			}
+			
+			#intro-content {
+				background: rgba(115, 180, 187, .9);//aqua
+			}
+
+			#about-content {
+				background: rgba(155, 180, 72, .9);//olive
+			}
+
+			#group-content {
+				background: rgba(73, 164, 214, .9);//blue
+			}
+
+			#regional-content {
+				background: rgba(223, 93, 49, .9);//orange
+			}
+		}
+		
+		/*pagination bullets:*/
+		.swiper-pagination {
+			z-index: 21;
+
+			.swiper-pagination-bullet {
+				background-color: transparent;
+				border: solid 2px transparent;
+				opacity: 1;
+				height: 22px;
+				margin: 6px 0;
+			  width: 14px;
+			  padding: 2px;
+				position: relative;
+
+				i {
+					display: none;
+				}
+			}
+
+			.swiper-pagination-bullet:after {
+				content: '';
+			  width: 10px;
+			  height: 10px;
+			  display: block;
+			  border-radius: 100%;
+			  background: $white;
+			  position: absolute;
+			  top: 4px;
+			  left: 4px;
+			}
+
+			.swiper-pagination-bullet-active {
+				border: solid 2px $white;
+				height: 22px;
+				width: 22px;
+				margin-right: 2em;
+
+				&.section0 {
+					border-color: $text;
+				}
+
+				&.section1 {
+					border-color: $olive;
+				}
+
+				&.section2 {
+					border-color: $blue;
+				}
+
+				&.section3 {
+					border-color: $orange;
+				}
+
+				i {
+					color: $white;
+					font-size: 1.3em;
+					font-style: normal;
+					margin-left: -100px;
+				  display: block;
+				  padding-right: 2em;
+				  text-align: right;
+				}
+			
+			}	
+		}
+		
+		/*next/previous buttons:*/
+		.swiper-buttons {
+			@include transform(rotate(90deg));
+		  //	bottom: 3em;//22em; //3em;
+		  right: 2em;
+		  display: block;
+		  height: 10em;
+		  position:absolute;
+		  top: 45.5em;
+			width: 10em;
+		  z-index: 101;
+
+		  @include mq(swiper_heightlimited){
+				top: 37em;//24em;
+		  }
+
+		  span {
+				margin-left: -999em;
+	  	  text-indent: -999em;
+  			overflow: hidden;
+		  }
+
+			.icon {
+					height: 4em;
+					width: 4em;
+
+				&:after {
+					height: 4em;
+					width: 4em;
+				}
+			}
+
+			.swiper-button-prev {
+				@include transform(rotate(90deg));
+			}
+
+			.swiper-button-next {
+				@include transform(rotate(-90deg));
+
+				&:after {
+					left: 0;
+					right: auto;
+				}				
+			}
+		}
+
+		
+	}
+}
+
+/* QUICK LINKS (HOMEPAGE DESKTOP) */
+.quick-links {
+	display: none;
+	
+	//@include bp(desktop){
+	@include mq(swiperready){
+		display: block;
+		border-top: 1px solid $dkgreen; 
+  	//height: 150px;
+	  //margin-top: 3em;		
+		padding-right: 0;
+		padding-top: 5%;
+	  position: absolute;
+	  top: 72%;
+	  width: 86%;
+
+	  @include mq(swiper_heightlimited){
+	  	padding-top: 2%;
+	  	top: 76%;
+	  	width: 90%;
+	  }
+
+	  .no-js & {
+	  	position: relative;
+	  }
+
+	}
+
+	ul {
+
+		//@include bp(desktop){
+		@include mq(swiperready){
+			padding-right: 10%;
+		}
+	}
+	
+	li {
+		display: inline-block;
+		font-size: 1.6em;
+		padding-right: 1em;
+		margin-top: .5em;
+
+		//@include bp(desktop){
+		@include mq(swiperready){
+			margin: 1em 1em 0 0;
+
+			@include mq(swiper_heightlimited){
+				margin-top: .5em;
+			}
+		}		
+
+		a.fa-angle-right {
+			padding-bottom: .1em;
+			//text-decoration: none;
+			//border-bottom: 0;
+
+			&:hover,
+			&:focus {
+				text-decoration: none;
+				//border-bottom: 1px solid $white;
+			}
+			
+			&:before {
+				position: absolute;
+				right: -1em;
+				top: .2em;
+			}
+
+		}
+	}
+}

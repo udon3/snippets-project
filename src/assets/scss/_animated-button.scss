@@ -10,82 +10,113 @@ $olivedk: #6b7a32;
 
 
 .btn-wrap {
-  display: inline-block;
+  display: block;
   height: 100px;
   position: relative;
   width: 30%;
 }
 
-.btn, 
-.btn2,
-.btn3 {
-  background-color: $white;
+.btn {
+  background-color: $olive;
   border-radius: 3px;
-  bottom: 0;
-  color: $grey;
-  display: inline-block;
+  color: $white;
+  display: block;
   font-size: 18px;
   font-weight: 600;
+  left: 0;
   padding: 10px 5px;
   position: absolute;
   text-decoration: none;
   text-transform: uppercase;
 
-  
+  &:hover,
+  &:focus {
+    background-color: $olivedk;
+  }
 }
 
 //button with box-shadow
-.btn {
-  @include transition(transform .3s ease, box-shadow .3 ease);
-  box-shadow: 0 3px 0 $greylt;
+.btn--shadow {
+  @include transition(box-shadow .3 ease);
+  box-shadow: 0 3px 0 $olivedk;
   margin: 0 0 3px;
+  top: 0;
 
   &:hover,
   &:focus {
     @include transform(translate(0, 3px)); 
-    background-color: $greylt;  
+    box-shadow: none;
   }
 }
 
 //button using border
-.btn2 {
+.btn--border {
   @include transition(border-bottom .3s ease);
-  border-bottom: 3px solid $greylt;
+  border-bottom: 3px solid $olivedk;
+  bottom: 0;
 
   &:hover,
   &:focus {
-    background-color: $greylt;
     border-bottom: 0;
   }
 }
 
 
-.btn--olive {
-  background-color: $olive;
-  box-shadow: 0 3px 0 $olivedk;
-  color: $white;
 
-  //use transform: translate + transition for animation effect
-  &:hover,
-  &:focus {
-    background-color: $olivedk;
+
+
+//image button
+.img-btn {
+  @include border-radius(50%);
+  background: $greylt url(../images/recycle.svg) no-repeat center;
+  background-size: 100%;
+  border: solid 3px $greylt;
+  display: inline-block;
+  height: 70px;
+  width: 70px;
+
+}
+
+.btn--transition {
+  @include transition(transform 1s ease);
+  @include rotate(0deg); 
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+
+  &:hover {
+    @include rotate(90deg); 
+  }
+}
+
+
+.btn--animation {
+  -webkit-animation: spin-pulse 3s linear infinite;
+  animation: spin-pulse 3s linear infinite;
+  /* paused initially */
+  -webkit-animation-play-state: paused; 
+  animation-play-state: paused; 
+  -webkit-backface-visibility: hidden;
+
+  &:hover {
+    /* Toggle our animation play state to running when we are hovering over our sticker */
+    animation-play-state: running;
+  }
+}
+
+@keyframes spin-pulse {
+  0% {
+    transform: scale(1);
+    transform: rotate(180deg);
   }
 
-  &.btn2 {
-    border-color: $olivedk;
-    box-shadow: none;
+  50% {
+    transform: scale(1.2);
+    //transform: rotate(180deg);
   }
-}
 
-.btn--big {
-  font-size: 24px;
-  padding: 15px 20px;
-}
-
-.btn__number {
-  font-size: .8em;
-}
-
-.btn__text {
-  color: $black;
+  100% {
+    transform: scale(1);
+    transform: rotate(180deg);
+  }
+  
 }

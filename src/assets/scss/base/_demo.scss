@@ -22,7 +22,28 @@ main {
 }
 
 .content {
-  width: 1024px;
+  max-width: 1400px;
+  padding: 0 20px;
+  width: 90%;
+
+  @include bp(tabletland){
+    width: 1024px;
+  }
+}
+
+pre {
+  font-size: .8em;
+}
+
+//utils
+
+//horizontal list
+.horizontal-list {
+  list-style: none;
+
+  li {
+    display: inline-block;
+  }
 }
 
 
@@ -48,22 +69,39 @@ main {
 
 
 //scroll-nav demo
-.scroll-nav-enabled {
+.scroll-nav-demo {
   background: $greydk;
   color: $white;
 
+  
   main {
-    width: 100%;
+    width: 100%;   
   }
 
   .content {
-    @include centre(800px);
+    @include centre(90%);
     background: $white;
     color: $black;
   }
+
+  img {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  section {
+    padding-top: 110px;
+  }
+
+  &.scroll-nav-enabled {
+
+    section {
+      padding-top: 0;
+    }
+  }
 }
 
-//viewport demo
+//viewport demo (not being used anywhere??)
 .viewprt-demo {
   .wrapper {
     width: 100%;

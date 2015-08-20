@@ -4,6 +4,7 @@
   dependencies:
     + jquery
     + velocity.js (http://github.com/julianshapiro/velocity)
+    + debounce.js ()
 
 call the plugin on the navigation element
   Options:
@@ -22,11 +23,9 @@ call the plugin on the navigation element
       // These are the defaults for exposed options
       linkObjects: '.scroll-nav a, .toplink', //elements to add into the links array
       sectionVSpace: 50, // px adjustment for the point at which active item will be triggerd
-      headerOffset: 0,
-      lastId: '',
-      stickyNav: false,
-      scrollSpeed: null,
-      animateInView: false
+      stickyNav: false, //WIP : not yet used - make having sticky nav an option
+      scrollSpeed: 500, //velocity.js animation speed, millisecs
+      easing: 'ease-in-out' //velocity.js animation easing
     };
 
     // Merge options
@@ -34,9 +33,6 @@ call the plugin on the navigation element
                       navHeight: $(this).height(),
                       complete: null, // set up for a callback
                       //and other settings   
-
-                        
-
                     }, defaults, options );
 
     // return, so that the plugin action can be chainable
@@ -65,16 +61,12 @@ call the plugin on the navigation element
     // All the plugin functions here:
     function scrollNav(settings, object){
 
-      var scrollNavObj = {
+      //scrollNavObject:
+      var sno = {
 
         vars: {
           $window: $(window),
-          $subNavItem: null,
-          $stickyMenu: null,
-          $scrollLink: null,
-          $menuItems: null,
-          $scrollItems: null,
-          $scrollSections: [],
+          $scrollItems: null
          
         },
 
@@ -84,21 +76,49 @@ call the plugin on the navigation element
           var $linksArray = $(settings.linkObjects);
           var $navContainer = $(object);
           
-          $linksArray.each(function(){
-            $(this).on('click', scrollNavObj.scrollFn);
+          //scroll on click:
+          $linksArray.each(function(){            
+            $(this).on('click', sno.scrollFn);
           });
+
+          //return a jq object array of each linked section element
+          sno.vars.$scrollItems = $('a', $navContainer).map(function() {
+            var item = $($(this).attr('href')); 
+            if (item.length) { return item; } //returns target DOM element, e.g. $('#section1')
+          });
+
+          // using debounce function bound to scroll event
+          var debouncedFn = sno.debounceFn(sno.activeNavFn, 150);
+
+          //active classes control:
+          sno.vars.$window.on({
+            load: function() {
+               sno.activeNavFn();
+            },
+            scroll: function() {
+              debouncedFn();               
+            }
+          });
+
+
+
+
+
 
 
         },
 
         //scroll action 
+        //uses velocity.js for animating
+        //WIP - case for Browserify + dependency injects?
         scrollFn: function(){
-          
+      
           var path = location.pathname.replace(/^\//,''),
               thisPath = this.pathname.replace(/^\//,''),
               host = location.hostname,
               thisHost = this.hostname;
 
+          //test anchor URLs are jump links, then use the hash part
           if (path === thisPath && host === thisHost){
 
             var target = $(this.hash);
@@ -106,38 +126,84 @@ call the plugin on the navigation element
             target = target.length ? target : $('[id=' + this.hash.slice(1) +']');
 
             if (target.length) {    
-              //use velocity
 
+              //use velocity to animate scroll
               $(target).velocity('scroll', {
-                duration: 500,
-                offset: -40,
-                easing: 'ease-in-out'
+                duration: settings.scrollSpeed,
+                offset: -settings.navHeight,
+                easing: settings.easing
               });
 
               return false;
             }
           }
-          
 
 
         },
 
+
+        debounceFn: function(func, wait, immediate){
+          //Debouncing: minimise the multiple firings of a function call (on window scrolls and resizes)
+          // http://davidwalsh.name/javascript-debounce-function            
+          var timeout;
+          return function() {
+            var context = this, args = arguments;
+            var later = function() {
+              timeout = null;
+              if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+          };
+        },
+
         //active nav highlighting
+        // (called from init wrapped in a debounce script)
         activeNavFn: function(){
 
-          console.log();
+          $(settings.linkObjects).removeClass('active');
 
-          var scrollTop = $(window).scrollTop(),  
-              navHeight = settings.navHeight,
-              viewPortHeight = window.innerHeight,
-              fromTop = scrollTop + navHeight; // container scroll position
+          //run currentItemFn to get current item Id, 
+          //use it to find the corresponding nav item                    
+          var currentId = sno.currentItemFn();
 
-              ///////WIP//////////
+          $(settings.linkObjects).filter('[href=#'+currentId+']').addClass('active');              
 
         },
 
         //get current scroll item
+        // (called from activeNavFn)
         currentItemFn: function(){
+
+          var scrollTop = $(window).scrollTop(),  
+              navHeight = settings.navHeight,
+              sectionVSpace = settings.sectionVSpace,
+              viewPortHeight = window.innerHeight;
+
+          var cur = sno.vars.$scrollItems.map(function() {            
+            if ($(this).offset().top < (scrollTop + navHeight + sectionVSpace)) //section's pos is less than viewport pos  
+              return this;
+              
+          });
+
+          // Get the current item id
+          cur = cur[cur.length-1]; 
+          var currentId = cur && cur.length ? cur[0].id : '';
+
+
+          //if last item:
+          if (scrollTop + viewPortHeight === $(document).height()){
+            //console.log('have hit bottom!');
+            var last = sno.vars.$scrollItems.length-1;
+            //get the id of the last item via array pos
+            currentId = sno.vars.$scrollItems[last][0].id;
+          }
+
+          return currentId;
+
+         
 
         },
 
@@ -148,7 +214,7 @@ call the plugin on the navigation element
 
       };
 
-      scrollNavObj.init();
+      sno.init();
      
 
     }

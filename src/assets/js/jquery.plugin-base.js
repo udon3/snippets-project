@@ -1,5 +1,5 @@
 
-//This is a jquery plugin that takes a data table and generates an animated graph
+//This is a jquery plugin base from which to build something useful
 
 (function ($) {
  

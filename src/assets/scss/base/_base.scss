@@ -40,3 +40,9 @@ button {
   outline: 0;
 }
 
+@include bp(mobileonly){
+  img {
+    width: 100%;
+  }
+}
+
