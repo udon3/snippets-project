@@ -100,12 +100,6 @@ call the plugin on the navigation element
             }
           });
 
-
-
-
-
-
-
         },
 
         //scroll action 
