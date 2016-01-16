@@ -1,0 +1,12 @@
+
+
+.overlay-wrapper {
+  border: solid 1px green;
+  display: none;
+  
+  &.active,
+  .no-js & {
+    display: block;
+  }
+}
+
