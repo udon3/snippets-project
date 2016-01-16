@@ -6,6 +6,7 @@
 } 
 
 
+
 //mediaquery breakpoints mixin:
 @mixin bp($point) {
   // mobile-first
@@ -52,6 +53,46 @@
 
 }
 
+//Shortcuts mixins
+
+
+// centre stuff horizontally
+@mixin centre($width){
+  left: 50%;
+  transform: translateX(-50%); //avoids paint and layout
+  width: $width;
+
+  // lte ie9 (using modernizr)
+  .no-csstransforms & {
+    left: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: $width;
+  }
+}
+
+// image replacement
+//(using the Scott Kellum method)
+@mixin hide-text($width, $height, $imgurl) {
+  width: $width;
+  height: $height;
+  background: url($imgurl) no-repeat 0 0;
+  background-size: cover;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+// Usage:
+.hide-text-from-browser {
+  @include hide-text(100px, 100px, '../images/clubs.svg');
+  display: inline-block;  
+
+  //lte ie8 (using modernizr)
+  .no-svg & {
+    background: url('../images/recycle.png') no-repeat 0 0;
+  }
+}
+
 //getting started with BEM??
 //BEM - c.f https://css-tricks.com/bem-101/
 @mixin element($name) {
@@ -60,3 +101,47 @@
     @content;
   }
 }
+
+
+//Animation mixins
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+
+    @if $i < $max {
+      $animations: #{$animations + ", "};
+    }
+  }
+  -webkit-animation: $animations;
+  -moz-animation: $animations;
+  -o-animation: $animations;
+  animation: $animations;
+}
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+//Usage:
+// @include keyframes(move-the-object) {
+//   0%   { left: 100px; }
+//   100% { left: 200px; }
+// }
+
+// .object-to-animate {
+//   @include animation('move-the-object .5s 1', 'move-the-object-again .5s 1 .5s');
+// } 
+

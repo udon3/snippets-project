@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta content="text/html" http-equiv="Content-Type">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll nav - jquery plugin with velocity.js</title>
+    <link rel="stylesheet" href="../assets/css/all.css">
+    <script type="text/javascript" src="../assets/js/lib/modernizr.custom.min.js"></script>
+
+  </head>
+
+  <body class="scroll-nav-demo">
+
+    <header>
+      <nav class="scroll-nav scroll-nav--sticky">
+        <ul class="horizontal-list">
+          <li><a href="#section1">section 1</a></li>
+          <li><a href="#section2">section 2</a></li>
+          <li><a href="#section3">section 3</a></li>
+          <li><a href="#section4">section 4</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="content">
+
+        <section id="section1">
+          <h2>jQuery Scroll nav plugin</h2>
+          <p>Dependencies: jquery and velocity.js</p>
+          <ul>
+            <li>Smooth scrolling with Velocity.js</li>
+            <li>Anchor links that scroll to section id.</li>
+            <li>Nav button states update:
+               <ul>
+                  <li>when user clicks nav button</li>
+                  <li>when user manually scrolls to a section</li>
+                  <li>when user clicks the 'next' button</li>
+               </ul>
+            </li>
+            <li>Debounce function added (but now the nav updates <em>after</em> scrolling has stopped)</li>
+            <li>Options: 
+<pre>
+$('.scroll-nav').scrollNavIt({/*options*/});
+
+linkObjects: '.scroll-nav a, .toplink', //elements to add into the links array
+sectionVSpace: 50, // px adjustment for the point at which active item will be triggerd
+stickyNav: false, //WIP : not yet used - make having sticky nav an option
+scrollSpeed: 500, //velocity.js animation speed, millisecs
+easing: 'ease-in-out' //velocity.js animation easing
+
+</pre>              
+            </li>
+          </ul>
+
+
+          <img src="http://placehold.it/700x800?text=section+1+placeholder" alt="">
+        </section>
+        <section id="section2">
+          <h2>Section 2</h2>
+
+          <img src="http://placehold.it/700x1000?text=section+2+placeholder" alt="">
+        </section>
+        <section id="section3">
+          <h2>Section 3</h2>
+          <img src="http://placehold.it/700x500?text=section+3+placeholder" alt="">
+        </section>
+        <section id="section4">
+          <h2>Section 4</h2>
+          <img src="http://placehold.it/700x500?text=section+4+placeholder" alt="">
+        </section>
+
+        <a href="#top" class="toplink">Toplink!</a>
+      </div>
+    </main>
+      
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../assets/js/lib/velocity.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.scroll-nav.js"></script>
+    <script type="text/javascript">
+
+      $('.scroll-nav').scrollNavIt({/*options*/});
+
+    </script>   
+
+    <!--[if lte IE 9]>
+        <script src="/assets/js/ltie9.js"></script>
+    <![endif]-->
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta content="text/html" http-equiv="Content-Type">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated buttons</title>
+    <link rel="stylesheet" href="../assets/css/all.css">
+    
+  </head>
+
+  <body>
+
+      <main>
+        <h1>Buttons</h1>
+
+        <p>Playing around with button hover effects.</p>
+
+
+        <h2>A set of buttons that use box-shadow and translate properties</h2>
+        <p>With transition set on transform(translate), this was triggering quite a lot of layout and paint. Now only transitioning the box-shadow.</p>
+        <div class="wrap">
+
+          <div class="btn-wrap">
+            <a href="#" class="btn btn--shadow">
+              A simple olive button 
+            </a>  
+          </div>
+          
+        </div>
+
+        <h2>A set that uses a bottom border</h2>
+        <p>more paint and layout triggered in browser on hover</p>
+        <div class="wrap">
+
+          <div class="btn-wrap">
+            <a href="#" class="btn btn--border">
+              A simple olive button 
+            </a>  
+          </div>
+          
+        </div>
+
+        <h2>A button with image</h2>
+        <p>not conviced about these. at all.</p>
+        <div class="wrap">
+          <div class="btn-wrap">
+            <h3>css transition</h3>
+            <a href="#" class="img-btn btn--transition hide-text-from-browser">recycle logo button</a>
+          </div>
+
+          <div class="btn-wrap">
+            <h3>css animation</h3>
+            <a href="#" class="img-btn btn--animation hide-text-from-browser">big button</a>
+          </div>  
+        </div>
+        
+      </main>
+      
+
+
+
+      <!--[if lte IE 9]>
+          <script src="/assets/js/ltie9.js"></script>
+      <![endif]-->
+  </body>
+</html>

@@ -1,3 +1,21 @@
+//colour variables
+$white: #fff;
+$black: #000;
+$olive: #80991c;
+$greydk: #333;
+$grey: #888;
+$greylt: #ccc;
+$olivedk: #6b7a32;
+
+$red: #f00;
+
+$orange: #f90;
+$yellow: #ff0;
+$green: #008000;
+$blue: #00f;
+$purple: #800080;
+
+
 //set all to pos rel if not already set elsewhere
 * {
   position: relative;
@@ -6,7 +24,8 @@
 //Animated graphs from table html
 
 //hide table with js
-.js .graph-table {
+.js .graph-table,
+.js .group-table {
   display: none;
 }
 
@@ -16,10 +35,11 @@ $colsnum: 5;
 $bars-height: 200px;
 $bar-width: 35px;
 $barcol-width: 40px;
-$xaxis-height: 30px;
+$xlabel-height: 30px;
 $yaxis-width: $barcol-width * $colsnum;
 $caption-height: 30px;
 $yunit-height: $bars-height/$colsnum;
+$ylabel-width: 40px;
 $overfigure-bg: #cecece;
 
 $tooltip-transition: all .8s ease-out;
@@ -27,14 +47,19 @@ $tooltip-transition: all .8s ease-out;
 
 
 //TABLES STYLES for non JS-enabled
-.graph-table {
+table {
   border-collapse: collapse;
-  width: 540px;
+  width: 100%;  
 
   caption {
     padding: 0;
     text-align: left;
   }
+
+  thead th {
+    border-bottom: 1px solid $white;
+  }
+
 
   th, 
   td {
@@ -49,7 +74,7 @@ $tooltip-transition: all .8s ease-out;
 
 //generated graph - styling
 .gg-wrap { //default class for generated graph wrapper element
-  //height: $bars-height + $caption-height + $xaxis-height; 
+  //height: $bars-height + $caption-height + $xlabel-height; 
 
   .gg-caption { //default class for heading generated from table caption
     height: $caption-height;
@@ -60,7 +85,12 @@ $tooltip-transition: all .8s ease-out;
 
 //The graph element box
 .gg {
-  height: $bars-height + $xaxis-height; 
+  height: $bars-height + $xlabel-height; 
+  
+}
+
+.gg--has-yaxis {
+  margin-left: $ylabel-width;
 }
 
 
@@ -76,68 +106,45 @@ $tooltip-transition: all .8s ease-out;
   }
 }
 
-// Y-Axis 
-.gg__y-axis {
-  position: absolute;
-  text-align: right;
-  width: $yaxis-width;
 
-  li {
-    border-top: 1px solid $grey; //background horizontal lines
-    display: block;
-    height: $yunit-height;
-    width: 100%;  
-
-    span {
-      display: block;
-      margin: -10px 0 0 -60px;
-      padding: 0 10px;
-      width: 40px;
-    }
-  }
-}
 
 // Graph Bars 
 .gg__bars {                   
-  background: $white;  
-  border-right: solid 1px $greylt; 
+  //background: $white;  
+  border-left: solid 1px $greylt; 
+  //border-right: solid 1px $greylt; 
   height: $bars-height; //need to fix height
   position: absolute;
   z-index: 10;
 
-  .gg__bar-wrap {            
-    border-left: solid 1px $greylt;     
+  // X-Axis
+  @at-root .gg__bar-wrap {            
+    //border-left: solid 1px $greylt;     
     display: inline-block;
     height: 100%;    
     width: $barcol-width;
 
+    &:first-child {
+      border-left: 0;
+    }
+
   }
 
-  .gg__bar {
+  @at-root .gg__bar {
+    background-color: $grey;
     bottom: 0;
-    cursor: pointer; 
     height: 0; 
     left: 0;
     position: absolute;
     text-align: center;
     width: $bar-width;
 
-    //mouseover bar reveals figures
+    //bar figures shown statically:
     span {
-      @include transition($tooltip-transition);
-      background: $overfigure-bg;
       display: block;
-      left: -8px;
-      margin: 0;        
-      opacity: 0;
+      left: -3px;
+      top: -20px;
       width: 40px;
-      //z-index: 20;
-    }
-
-    &:hover span {
-      display: block;
-      margin-top: -25px;
-      opacity: 1;
     }
 
     em {
@@ -169,6 +176,53 @@ $tooltip-transition: all .8s ease-out;
 
   }
 
+  @at-root .gg__bar--tooltip {
+    //bar figures shown on mouseover:
+    cursor: pointer; 
+
+    span {
+      @include transition($tooltip-transition);
+      display: block;
+      margin: 0;        
+      opacity: 0;
+      top: 10px;
+      width: 40px;
+      //z-index: 20;
+    }
+
+    &:hover span {
+      display: block;
+      margin-top: -25px;
+      opacity: 1;
+      top: 0;
+    }
+  }
+
   
 }
 
+// Y-Axis 
+.gg__y-axis {
+  margin: 0;
+  padding-left: 0;
+  position: absolute;
+  text-align: right;
+  width: 100%;//$yaxis-width;
+
+  li {
+    border-top: 1px solid $grey; //background horizontal lines
+    display: block;
+    height: $yunit-height;
+    width: 100%;  
+
+    span {
+      display: block;
+      //margin: -10px 0 0 -60px;
+      //padding: 0 10px;
+      margin-left: -$ylabel-width;
+      margin-top: -10px;
+      text-align: left;
+      width: $ylabel-width;
+    }
+  }
+}

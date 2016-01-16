@@ -1,17 +1,4 @@
 
-
-
-
-/*
-var defaults = { validate: false, limit: 5, name: "foo" };
-var options = { validate: true, name: "bar" };
- 
-// Merge defaults and options, without modifying defaults
-var settings = $.extend( {}, defaults, options );*/
-
-
-//http://blog.teamtreehouse.com/writing-your-own-jquery-plugins
-
 //This is a jquery plugin that takes a data table and generates an animated graph
 
 (function ($) {
@@ -21,12 +8,15 @@ var settings = $.extend( {}, defaults, options );*/
     var defaults = {
       // These are the defaults.
       // could do with more finesse!
-      useYAxis: false, //can omit the y-axis
-      graphsContainerClass: 'tableGraphs', //there can be more than one wrapper on a page
-      graphTableWrapClass: 'tg-wrap', //individual table-graph wrapper, as children of the above
+      hideTable: true,
+      tableClass: 'graph-table', //there can be more than one wrapper on a page
       genHeading: 'h3', //change if this needs to be another element (caption text will be reperesented)      
       headingClass: 'gg-caption', //class for the heading
-      barsTransitionSpeed: '.8' //control graph bars transition speed
+      useYAxis: true, //can omit the y-axis
+      yAxisSegments: 5, //only set if useYAxis is true 
+      barsMultiColour: true, //false if no hooks needed for colouring each bar differently
+      barsTransitionSpeed: '.8', //control graph bars transition speed
+      barTooltips: false //show bar data text on hover 
     };
 
     // Merge options
@@ -44,12 +34,16 @@ var settings = $.extend( {}, defaults, options );*/
       // Plugin code would go here...
 
       //allow for call backs:
-      if ($.isFunction(settings.complete)) {
+      if ($.isFunction(settings.complete)){
         settings.complete.call(this);
       }
 
       // run the graphs code
       ggGraphs(settings, this);
+
+      if (settings.hideTable){
+        $(this).addClass('hide-table');
+      }
 
     });
 
@@ -57,31 +51,21 @@ var settings = $.extend( {}, defaults, options );*/
     // All the plugin functions here:
     function ggGraphs(settings, object){
 
-      //set up dom objects with the settings values:
-      var graphsContainer = '.' + settings.graphsContainerClass,
-          graphwrap = '.' + settings.graphTableWrapClass;
-
-      Graphs = {
+      var Graphs = {
 
         vars: {
           barDataArray: [],
           barData: null
         },
 
+        //init function invoked after all Graphs methods anad properties
         init: function(){
 
-          //console.log('how many?'); //3 times for 3 tables is correct
+          var $tables = $('.'+settings.tableClass),
+              dataArray = [],
+              tableObj = object;
 
-          var $graphsContainer = $(graphsContainer);
-
-          var dataArray = [];
-
-          var tableObj = object;
-
-          if ($graphsContainer.length > 0){
-
-            var $graphwrap = $(graphwrap), //html code individual table/graph wrapper
-                $tables = $('table', $graphsContainer); //array of all tables in the big graphs wrapper
+          if ($tables.length > 0){
 
             (function(){
               //Create graph from the data table(tableId) 
@@ -95,9 +79,11 @@ var settings = $.extend( {}, defaults, options );*/
 
               dataArray.push(Graphs.vars.barData);
 
-              $('#reset').on('click', function(){ 
+              // This could do with being extracted and exposed:
+              $('#reset').on('click', function(e){ 
                 //passing the object('this'), and an array of data objects 
                 Graphs.reset(tableObj, dataArray);
+                e.preventDefault();
               });
               
             })();  
@@ -159,7 +145,6 @@ var settings = $.extend( {}, defaults, options );*/
               // Round off the value
               var chartYmax = Math.ceil(Math.max.apply(Math, chartdata)) ;
               var chartMaxNum = (chartYmax /900)*1000;
-              //console.log('from chartYMax',chartMaxNum);
               return chartMaxNum;
             },
 
@@ -168,12 +153,19 @@ var settings = $.extend( {}, defaults, options );*/
               var chartYmax = this.chartYMax();
               var yLegend = [];
               // Number of divisions on the y-axis
-              var yAxisMarkings = 5;            
+              var yAxisSegments = settings.yAxisSegments +1; //number of y-axis rows  
+
+              //need a function to calculate the y-axis legends (so if 0 - 8, in 4 rows, it's 2,4,6,8)
+
+
+
               // Add required number of y-axis markings in order from 0 - max
-              for (var i = 0; i < yAxisMarkings; i++) {
-                yLegend.unshift(((chartYmax * i) / (yAxisMarkings - 1)) / 1000);
+              for (var i = 0; i < yAxisSegments; i++) {
+                yLegend.unshift(((chartYmax * i) / (yAxisSegments - 1)));
+                //yLegend = Math.ceil(parseInt(yLegend)).toString();
               }
-              //console.log(yLegend);
+              
+              //yLegend = integer.toString();
               return yLegend;
             },
 
@@ -181,7 +173,7 @@ var settings = $.extend( {}, defaults, options );*/
             xLegend: function() {
               var xLegend = [];
               // Find th elements in table header - that will tell us what items go in the x-axis legend
-              $data.find('thead th').each(function() {
+              $data.find('thead th:not([scope="row"])').each(function() { //:not([scope="row"])
                 xLegend.push($(this).text());
               });
               //console.log(xLegend);
@@ -230,6 +222,7 @@ var settings = $.extend( {}, defaults, options );*/
           // Add y-axis to graph (optional)
           if (settings.useYAxis){      
             Graphs.addYAxis($genGraph, tableData.yLegend());
+            $genGraph.addClass('gg--has-yaxis');
           }
 
           //append components to view:
@@ -263,8 +256,20 @@ var settings = $.extend( {}, defaults, options );*/
               barObj.label = this[j];
               barObj.height = Math.floor(barObj.label / chartYMax * 100) + '%';
               //console.log(barObj.height);
-              barObj.bar = $('<div class="gg__bar bar-' + i + '"><span>' + barObj.label + '</span></div>')
+
+              //add hooks to bars for styling?
+              var barClass = '',
+                  tooltipClass = '';              
+              if (settings.barsMultiColour){
+                barClass = ' bar-' + i;
+              }
+              if (settings.barTooltips){
+                tooltipClass = ' gg__bar--tooltip';
+              }
+
+              barObj.bar = $('<div class="gg__bar' + barClass + tooltipClass + '"><span>' + barObj.label + '</span></div>')
                 .appendTo(barGroup);
+              
               bars.push(barObj);
             }
             // Add bar groups to graph
@@ -291,21 +296,30 @@ var settings = $.extend( {}, defaults, options );*/
           // Add x-axis to graph
           var xLegend = fn;   //return an array of theaders
           var xAxisList = $('<div class="gg__x-axis"></div>');
-          $.each(xLegend, function(i) {     
+          $.each(xLegend, function(i) {    
+
             var listItem = $('<span>' + this + '</span>')
               .appendTo(xAxisList);
+
           });
           xAxisList.appendTo($genGraph);
         },
         
         addYAxis: function($genGraph, fn){
-          var yLegend = fn;
-          var yAxisList = $('<ul class="gg__y-axis"></ul>');
-          $.each(yLegend, function(i) {     
-            var listItem = $('<li><span>' + this + '</span></li>')
-              .appendTo(yAxisList);
-          });
-          yAxisList.appendTo($genGraph);  
+          if (settings.useYAxis){
+            var yLegend = fn;
+            var yAxisList = $('<ul class="gg__y-axis"></ul>');
+            $.each(yLegend, function(i) {   
+
+              yNum = Math.ceil(this);
+
+              var listItem = $('<li><span>' + yNum + '</span></li>')
+                .appendTo(yAxisList);
+
+            });
+            yAxisList.appendTo($genGraph);    
+          }
+          
         },    
           
         // Set individual height of bars

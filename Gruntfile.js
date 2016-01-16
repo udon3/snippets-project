@@ -6,7 +6,7 @@ module.exports = function(grunt) {
       dist: {                   // Target
         options: {              // Target options
           config: 'config.rb'
-        }
+        },
       }
     },
     scsslint: {
@@ -41,7 +41,8 @@ module.exports = function(grunt) {
     watch: {
       scss: {
         files: ['src/**/*.scss'],
-        tasks: ['scsslint', 'compass'],       
+        //tasks: ['scsslint', 'compass'],
+        tasks: ['compass'],       
         options: {
           livereload: true,
         }
@@ -62,7 +63,20 @@ module.exports = function(grunt) {
       }
     },
     
-
+    //want to use this once unhooked compass...
+    postcss: {
+      options: {
+          map: true, //inline source mapping
+          processors: [
+            require('autoprefixer-core')({
+              browsers: ['last 2 versions']
+            })
+          ]
+      },
+      dist: {
+        src: 'css/*.css'
+      }
+    }
 
   });
 
@@ -72,8 +86,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
+
   grunt.registerTask('default', ['connect', 'watch', 'compass']);
   grunt.registerTask('lint', ['scsslint', 'jshint']);
+
+
+  //grunt.loadNpmTasks('grunt-postcss');
+  //grunt.registerTask('postcss', ['postcss:dist']);
 };
 
 

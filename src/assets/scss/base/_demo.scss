@@ -1,10 +1,16 @@
 .wrap {
-  width: 500px;
+  width: 100%;
 }
 
-//viewport demo
-.wrapper {
-  width: 100%;
+header {
+
+  .centre {
+    @include centre(90%);
+  }
+}
+
+main {
+  @include centre(90%);
 }
 
 .centre {
@@ -12,21 +18,92 @@
   margin: auto;
   max-width: 1190px;
   overflow: hidden;
-  width: 1024px;
+  width: 90%;
 }
 
 .content {
-  width: 1024px;
+  max-width: 1400px;
+  padding: 0 20px;
+  width: 90%;
+
+  @include bp(tabletland){
+    width: 1024px;
+  }
+}
+
+pre {
+  font-size: .8em;
+}
+
+//utils
+
+//horizontal list
+.horizontal-list {
+  list-style: none;
+
+  li {
+    display: inline-block;
+  }
 }
 
 
 //animated graphs demo
-.tg-wrap {
+.tg__single {
   background: $greydk;
   color: $white;
   display: inline-block;
+  margin-bottom: 20px;
   margin-right: 1%;
   padding: 20px;
+  width: 80%;
+}
+
+.tg--group__single {
   width: 30%;
 
+  .gg__bars,
+  .gg__bar-wrap {
+    border: 0;
+  }
+}
+
+
+//scroll-nav demo
+.scroll-nav-demo {
+  background: $greydk;
+  color: $white;
+
+  
+  main {
+    width: 100%;   
+  }
+
+  .content {
+    @include centre(90%);
+    background: $white;
+    color: $black;
+  }
+
+  img {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  section {
+    padding-top: 110px;
+  }
+
+  &.scroll-nav-enabled {
+
+    section {
+      padding-top: 0;
+    }
+  }
+}
+
+//viewport demo (not being used anywhere??)
+.viewprt-demo {
+  .wrapper {
+    width: 100%;
+  }
 }

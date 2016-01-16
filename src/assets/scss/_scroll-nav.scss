@@ -1,0 +1,55 @@
+//variables 
+
+$orange: #f90;
+$red: #f00;
+$purple: #800080;
+
+
+.scroll-nav-enabled { //dynamically added to body
+  .content {
+    margin-top: 104px;
+
+  }
+}
+
+//scroll navigation menu
+.scroll-nav {
+  background: $orange;
+  position: relative;
+
+  a {
+    padding: 5px; 
+    
+    &.active {
+      background: $purple;
+      color: $white;
+    }
+  }
+}
+
+//optional, for sticky nav
+.scroll-nav--sticky {
+  @include centre(90%);
+  opacity: .9;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+
+}
+
+
+
+
+.content {
+  padding-top: 0;
+
+  // additional opacity on scroll bit
+  section {
+    //@include transition(opacity .3s ease-in-out);
+    //opacity: 1;
+    
+    &.is-obscured {
+      //opacity: 0;
+    }
+  }
+}

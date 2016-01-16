@@ -1,0 +1,45 @@
+//variables 
+
+$orange: #f90;
+$red: #f00;
+$purple: #800080;
+
+.scroll-nav-enabled { //dynamically added hook
+
+}
+
+.navwrap {
+  background: $orange;
+  opacity: .9;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.jumpnav {
+
+  a {
+
+    &.active {
+      border: 2px solid $purple;
+    }
+  }
+}
+
+
+.content {
+  border: solid 1px $red; 
+  //margin-top: 150px;
+  padding-top: 104px;
+
+  // additional opacity on scroll bit
+  section {
+    @include transition(opacity .3s ease-in-out);
+    opacity: 1;
+    
+    &.is-obscured {
+      opacity: 0;
+    }
+  }
+}

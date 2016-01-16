@@ -125,7 +125,7 @@ linters:
     properties: {}
 
   PropertySortOrder:
-    enabled: true
+    enabled: false # disabled for now, due to flex-box and vendor prefixed styles in the swiper-customise stylesheet
     ignore_unspecified: false
     min_properties: 2
     separate_groups: false
@@ -198,7 +198,7 @@ linters:
     enabled: true
 
   UrlFormat:
-    enabled: true
+    enabled: false # disabled to allow placeholder img urls
 
   UrlQuotes:
     enabled: true
@@ -208,7 +208,7 @@ linters:
     properties: []
 
   VendorPrefix:
-    enabled: true
+    enabled: false
     identifier_list: base
     additional_identifiers: []
     excluded_identifiers: []
