@@ -1,12 +1,34 @@
 
-
+//overlay
 .overlay-wrapper {
   border: solid 1px green;
-  display: none;
+  position: absolute; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; 
+  width: 1px; 
+  margin: -1px; 
+  padding: 0; 
+  border: 0;
   
   &.active,
   .no-js & {
-    display: block;
+    position: relative;
+    overflow: visible;
+    clip: auto;
+    height: auto; 
+    width: auto; 
+    margin: 0; 
   }
 }
 
+
+//flexslider 
+.carousel-wrapper {
+  width: 80%;
+}
+
+.slides li {
+  width: 100%;
+  background: orange;
+}
